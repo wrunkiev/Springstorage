@@ -3,8 +3,11 @@ package com.service;
 import com.DAO.StorageDAO;
 import com.model.Storage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.NoSuchElementException;
 
+@Service
 public class StorageService {
     @Autowired
     private StorageDAO storageDAO;

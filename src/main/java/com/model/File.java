@@ -1,5 +1,6 @@
 package com.model;
 
+
 import javax.persistence.*;
 
 @Entity
@@ -66,5 +67,4 @@ public class File {
     public void setStorage(Storage storage) {
         this.storage = storage;
     }
-
 }

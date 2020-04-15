@@ -3,8 +3,11 @@ package com.service;
 import com.DAO.FileDAO;
 import com.model.File;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.NoSuchElementException;
 
+@Service
 public class FileService {
     @Autowired
     private FileDAO fileDAO;
