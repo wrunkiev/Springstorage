@@ -20,7 +20,7 @@
     <bean id="fileController" class="com.controller.FileController">
         <!--<constructor-arg name="name" value=""/>-->
     </bean>
-    <bean id="controller" class="com.controller.Controller">
+    <bean id="controller" class="com.controller.TransferController">
         <!--<constructor-arg name="name" value=""/>-->
     </bean>
 

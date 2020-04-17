@@ -63,4 +63,14 @@ public class Storage {
         return files;
     }
 
+    @Override
+    public String toString() {
+        return "Storage{" +
+                "id=" + id +
+                ", formatsSupported='" + formatsSupported + '\'' +
+                ", storageCountry='" + storageCountry + '\'' +
+                ", storageSize=" + storageSize +
+                ", files=" + files +
+                '}';
+    }
 }

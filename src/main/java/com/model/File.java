@@ -22,7 +22,7 @@ public class File {
     private long size;
 
     @ManyToOne
-    @JoinColumn(name = "STORAGE_ID", nullable = false)
+    @JoinColumn(name = "STORAGE_ID")
     private Storage storage;
 
     public File() {
@@ -66,5 +66,16 @@ public class File {
 
     public void setStorage(Storage storage) {
         this.storage = storage;
+    }
+
+    @Override
+    public String toString() {
+        return "File{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", format='" + format + '\'' +
+                ", size=" + size +
+                ", storage=" + storage +
+                '}';
     }
 }

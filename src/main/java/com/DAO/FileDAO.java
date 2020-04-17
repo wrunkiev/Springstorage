@@ -43,13 +43,6 @@ public class FileDAO {
             tr = session.getTransaction();
             tr.begin();
 
-            /*String sql = "SELECT * FROM FILES WHERE ID = ?";
-            NativeQuery query = session.createNativeQuery(sql, File.class);
-            query.setParameter(1, id);
-
-            List<File> list = session.createNativeQuery(sql).setParameter(1, id).getResultList();
-
-            File file = list.get(0);*/
             File file = session.get(File.class, id);
 
             tr.commit();
