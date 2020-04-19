@@ -1,6 +1,7 @@
 package com.model;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Entity
@@ -21,7 +22,7 @@ public class Storage {
     @Column(name = "STORAGE_SIZE")
     private long storageSize;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "storage")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "storage", fetch = FetchType.EAGER)
     private List<File> files;
 
     public Storage() {
@@ -58,6 +59,7 @@ public class Storage {
     public long getStorageSize() {
         return storageSize;
     }
+
 
     public List<File> getFiles() {
         return files;
