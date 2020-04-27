@@ -227,6 +227,7 @@ public class TransferController {
     }
 
     private boolean checkFileFormat(Storage storage, File file){
+        //TODO каждый раз достаешь файл/сторедж с базы. один раз достань и работай с ними
         Storage s = storageService.findById(storage.getId());
         File f = fileService.findById(file.getId());
         String[] storageFormat = s.getFormatsSupported().split(",");
@@ -250,6 +251,7 @@ public class TransferController {
     }
 
     private boolean checkFileId(Storage storage, File file){
+        //TODO с базой уже так проверять нельзя. если в сторедже будет много файлов, будет код медленно работать. на уровне SQL заапрос это можно проверить
         for(File element : storage.getFiles()){
             if(element != null && file != null && file.getId() == element.getId()) {
                 return false;
@@ -259,6 +261,7 @@ public class TransferController {
     }
 
     private void checkStorageFromNull(Storage storage){
+        //TODO эти 2 метода лишние,  можно удалить
         if(storage == null)
             throw new NullPointerException("Exception in method TransferController.checkStorageFromNull. StorageFrom is null.");
     }
