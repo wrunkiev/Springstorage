@@ -1,6 +1,5 @@
 package com.controller;
 
-import com.DAO.FileDAO;
 import com.model.File;
 import com.model.Storage;
 import org.hibernate.HibernateException;
@@ -10,12 +9,8 @@ import com.service.StorageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -29,14 +24,9 @@ public class TransferController {
     @RequestMapping(method = RequestMethod.GET, value = "/saveFileToStorage", produces = "text/plain")
     public void saveFileToStorage(HttpServletRequest req, HttpServletResponse resp)throws Exception{
         try{
-            String idString = req.getParameter("idFile");
-            long idFile = Long.parseLong(idString);
-            File file = fileService.findById(idFile);
-            idString = req.getParameter("idStorage");
-            long idStorage = Long.parseLong(idString);
-            Storage storage = storageService.findById(idStorage);
+            File file = fileService.findById(Long.parseLong(req.getParameter("idFile")));
+            Storage storage = storageService.findById(Long.parseLong(req.getParameter("idStorage")));
             put(storage, file);
-            resp.setStatus(HttpServletResponse.SC_OK);
             resp.getWriter().println(resp.getStatus());
         }catch (NoSuchElementException e){
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -75,14 +65,9 @@ public class TransferController {
     @RequestMapping(method = RequestMethod.GET, value = "/deleteFileFromStorage", produces = "text/plain")
     public void deleteFileFromStorage(HttpServletRequest req, HttpServletResponse resp)throws Exception{
         try{
-            String idString = req.getParameter("idFile");
-            long idFile = Long.parseLong(idString);
-            File file = fileService.findById(idFile);
-            idString = req.getParameter("idStorage");
-            long idStorage = Long.parseLong(idString);
-            Storage storage = storageService.findById(idStorage);
+            File file = fileService.findById(Long.parseLong(req.getParameter("idFile")));
+            Storage storage = storageService.findById(Long.parseLong(req.getParameter("idStorage")));
             delete(storage, file);
-            resp.setStatus(HttpServletResponse.SC_OK);
             resp.getWriter().println(resp.getStatus());
         }catch (NoSuchElementException e){
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -112,14 +97,9 @@ public class TransferController {
     @RequestMapping(method = RequestMethod.GET, value = "/transferAllFiles", produces = "text/plain")
     public void transferAllFiles(HttpServletRequest req, HttpServletResponse resp)throws Exception{
         try{
-            String idString = req.getParameter("idStorageFrom");
-            long idStorageFrom = Long.parseLong(idString);
-            Storage storageFrom = storageService.findById(idStorageFrom);
-            idString = req.getParameter("idStorageTo");
-            long idStorageTo = Long.parseLong(idString);
-            Storage storageTo = storageService.findById(idStorageTo);
+            Storage storageFrom = storageService.findById(Long.parseLong(req.getParameter("idStorageFrom")));
+            Storage storageTo = storageService.findById(Long.parseLong(req.getParameter("idStorageTo")));
             transferAll(storageFrom, storageTo);
-            resp.setStatus(HttpServletResponse.SC_OK);
             resp.getWriter().println(resp.getStatus());
         }catch (NoSuchElementException e){
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -168,16 +148,10 @@ public class TransferController {
     @RequestMapping(method = RequestMethod.GET, value = "/transferFileFromToStorage", produces = "text/plain")
     public void transferFileFromToStorage(HttpServletRequest req, HttpServletResponse resp) throws Exception{
         try{
-            String idString = req.getParameter("idStorageFrom");
-            long idStorageFrom = Long.parseLong(idString);
-            Storage storageFrom = storageService.findById(idStorageFrom);
-            idString = req.getParameter("idStorageTo");
-            long idStorageTo = Long.parseLong(idString);
-            Storage storageTo = storageService.findById(idStorageTo);
-            idString = req.getParameter("idFile");
-            long idFile = Long.parseLong(idString);
+            Storage storageFrom = storageService.findById(Long.parseLong(req.getParameter("idStorageFrom")));
+            Storage storageTo = storageService.findById(Long.parseLong(req.getParameter("idStorageTo")));
+            long idFile = Long.parseLong(req.getParameter("idFile"));
             transferFile(storageFrom, storageTo, idFile);
-            resp.setStatus(HttpServletResponse.SC_OK);
             resp.getWriter().println(resp.getStatus());
         }catch (NoSuchElementException e){
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -209,30 +183,17 @@ public class TransferController {
     private void checkStorage(Storage storage)throws Exception{
         if(storage == null)
             throw new NullPointerException("Exception in method TransferController.checkStorageNull. Storage can't null.");
-
-        Storage s = storageService.findById(storage.getId());
-        if(s == null)
-            throw new Exception("Exception in method TransferController.put. This storage + " +
-                    storage.getId() +" is not defined inDB");
     }
 
     private void checkFile(File file)throws Exception{
         if(file == null)
             throw new NullPointerException("Exception in method TransferController.checkFileNull. File can't null.");
-
-        File f = fileService.findById(file.getId());
-        if(f == null)
-            throw new Exception("Exception in method TransferController.put. This file + " +
-                    file.getId() +" is not defined inDB");
     }
 
     private boolean checkFileFormat(Storage storage, File file){
-        //TODO каждый раз достаешь файл/сторедж с базы. один раз достань и работай с ними
-        Storage s = storageService.findById(storage.getId());
-        File f = fileService.findById(file.getId());
-        String[] storageFormat = s.getFormatsSupported().split(",");
+        String[] storageFormat = storage.getFormatsSupported().split(",");
         for(String format : storageFormat){
-            if(f != null && f.getFormat().equals(format)){
+            if(file != null && file.getFormat().equals(format)){
                 return true;
             }
         }
@@ -240,9 +201,8 @@ public class TransferController {
     }
 
     private long getRealStorageSize(Storage storage){
-        Storage s = storageService.findById(storage.getId());
         long size = 0;
-        for(File element : s.getFiles()){
+        for(File element : storage.getFiles()){
             if(element != null){
                 size += element.getSize();
             }
@@ -250,24 +210,13 @@ public class TransferController {
         return size;
     }
 
-    private boolean checkFileId(Storage storage, File file){
-        //TODO с базой уже так проверять нельзя. если в сторедже будет много файлов, будет код медленно работать. на уровне SQL заапрос это можно проверить
-        for(File element : storage.getFiles()){
+    private boolean checkFileId(Storage storage, File file)throws Exception{
+        List <File> files = storageService.getFiles(storage.getId());
+        for(File element : files){
             if(element != null && file != null && file.getId() == element.getId()) {
                 return false;
             }
         }
         return true;
-    }
-
-    private void checkStorageFromNull(Storage storage){
-        //TODO эти 2 метода лишние,  можно удалить
-        if(storage == null)
-            throw new NullPointerException("Exception in method TransferController.checkStorageFromNull. StorageFrom is null.");
-    }
-
-    private void checkStorageToNull(Storage storage){
-        if(storage == null)
-            throw new NullPointerException("Exception in method TransferController.checkStorageToNull. StorageTo is null.");
     }
 }

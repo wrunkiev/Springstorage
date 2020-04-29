@@ -1,11 +1,13 @@
 package com.service;
 
 import com.DAO.StorageDAO;
+import com.model.File;
 import com.model.Storage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -30,5 +32,9 @@ public class StorageService {
 
     public void delete(long id)throws Exception{
         storageDAO.delete(id);
+    }
+
+    public List<File> getFiles(long id)throws Exception{
+        return storageDAO.getFiles(id);
     }
 }

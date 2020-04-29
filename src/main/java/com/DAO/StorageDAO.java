@@ -1,10 +1,15 @@
 package com.DAO;
 
+import com.model.File;
 import com.model.Storage;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
 import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.util.HibernateSessionFactory.createSessionFactory;
 
@@ -98,6 +103,30 @@ public class StorageDAO {
         } catch (HibernateException e) {
             System.err.println("Exception in method StorageDAO.delete. Delete storage with ID: " +
                     storage.getId() + " is failed.");
+            System.err.println(e.getMessage());
+            if (tr != null) {
+                tr.rollback();
+            }
+            throw e;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<File> getFiles(long id)throws Exception{
+        Storage storage = findById(id);
+        checkStorageNull(storage);
+
+        Transaction tr = null;
+        try (Session session = createSessionFactory().openSession()) {
+            tr = session.getTransaction();
+            tr.begin();
+
+            String sql = "SELECT * FROM FILES WHERE STORAGE_ID = ?";
+            List<File> files = session.createNativeQuery(sql).setParameter(1, id).getResultList();
+            tr.commit();
+            return files;
+        } catch (HibernateException e) {
+            System.err.println("Exception in method StorageDAO.getFiles.");
             System.err.println(e.getMessage());
             if (tr != null) {
                 tr.rollback();
