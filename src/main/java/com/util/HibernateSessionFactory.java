@@ -8,7 +8,7 @@ public class HibernateSessionFactory {
 
     public static SessionFactory createSessionFactory(){
         if(sessionFactory == null) {
-            sessionFactory = new Configuration().configure("hibernate-cfg.xml").buildSessionFactory();
+            sessionFactory = new Configuration().configure("hibernate-cfg1.xml1").buildSessionFactory();
         }
         return sessionFactory;
     }
