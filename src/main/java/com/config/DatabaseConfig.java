@@ -17,7 +17,6 @@ import org.springframework.core.env.Environment;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan(basePackages={"com"})
 public class DatabaseConfig {
     private final Environment env;
 

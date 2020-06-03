@@ -14,39 +14,39 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com")
+@ComponentScan("com")
 public class AppConfig {
-    @Bean(name = "fileDAO")
+    @Bean
     public FileDAO fileDAO(){
         return new FileDAO();
     }
 
-    @Bean(name = "storageDAO")
+    @Bean
     public StorageDAO storageDAO(){
         return new StorageDAO();
     }
 
-    @Bean(name = "fileService")
+    @Bean
     public FileService fileService(){
         return new FileService();
     }
 
-    @Bean(name = "storageService")
+    @Bean
     public StorageService storageService(){
         return new StorageService();
     }
 
-    @Bean(name = "fileController")
+    @Bean
     public FileController fileController(){
         return new FileController();
     }
 
-    @Bean(name = "storageController")
+    @Bean
     public StorageController storageController(){
         return new StorageController();
     }
 
-    @Bean(name = "transferController")
+    @Bean
     public TransferController transferController(){
         return new TransferController();
     }
