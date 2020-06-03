@@ -9,29 +9,24 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Objects;
 import java.util.Properties;
 import org.springframework.core.env.Environment;
 
+
 @Configuration
 @EnableTransactionManagement
 public class DatabaseConfig {
-    private final Environment env;
-
-    @Autowired
-    public DatabaseConfig(Environment env){
-        this.env = env;
-    }
-
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("oracle.jdbc.driver.OracleDriver")));
-        dataSource.setUrl(env.getProperty("jdbc:oracle:thin:@gromcode-lessons.cfzzaolfgt6x.us-east-2.rds.amazonaws.com:1521:ORCL"));
-        dataSource.setUsername(env.getProperty("main"));
-        dataSource.setPassword(env.getProperty("2210Dracon1983"));
+        dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
+        dataSource.setUrl("jdbc:oracle:thin:@gromcode-lessons.cfzzaolfgt6x.us-east-2.rds.amazonaws.com:1521:ORCL");
+        dataSource.setUsername("main");
+        dataSource.setPassword("2210Dracon1983");
         return dataSource;
     }
 
@@ -66,4 +61,5 @@ public class DatabaseConfig {
     public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
         return new PersistenceExceptionTranslationPostProcessor();
     }
+
 }
