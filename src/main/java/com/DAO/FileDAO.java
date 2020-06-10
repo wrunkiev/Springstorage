@@ -5,25 +5,39 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 import static com.util.HibernateSessionFactory.createSessionFactory;
 
+//import static com.util.HibernateSessionFactory.createSessionFactory;
+
 @Repository
 public class FileDAO {
+    //@PersistenceContext
+    //private EntityManager entityManager;
+
     public File save(File file)throws Exception{
         checkFileNull(file);
 
         Transaction tr = null;
-        try (Session session = createSessionFactory().openSession()) {
+        //EntityTransaction entityTransaction = null;
+        try (Session session = createSessionFactory().openSession() ){
+
             tr = session.getTransaction();
-            tr.begin();
+            //entityTransaction = entityManager.getTransaction();
+            //entityTransaction.begin();
 
             session.save(file);
+            //entityManager.persist(file);
 
-            tr.commit();
+            //entityTransaction.commit();
 
             return file;
         } catch (HibernateException e) {

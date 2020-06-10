@@ -43,7 +43,7 @@ public class DatabaseConfig {
 
         //Hibernate properties
         Properties additionalProperties = new Properties();
-        additionalProperties.put("hibernate.dialect", "org.hibernate.dialect.Oracle10Dialect");
+        additionalProperties.put("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
         additionalProperties.put("hibernate.show_sql", "false");
         entityManagerFactory.setJpaProperties(additionalProperties);
 

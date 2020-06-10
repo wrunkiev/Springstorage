@@ -8,10 +8,13 @@ import org.hibernate.Transaction;
 import org.hibernate.query.NativeQuery;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.util.HibernateSessionFactory.createSessionFactory;
+
+//import static com.util.HibernateSessionFactory.createSessionFactory;
 
 @Repository
 public class StorageDAO {
