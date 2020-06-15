@@ -3,6 +3,7 @@ package com.model;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "STORAGE")
@@ -22,6 +23,7 @@ public class Storage {
     @Column(name = "STORAGE_SIZE")
     private long storageSize;
 
+    @Transient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "storage", fetch = FetchType.EAGER)
     private List<File> files;
 

@@ -1,18 +1,10 @@
-package com.DAO;
+package com.dao;
 
 import com.model.File;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.NativeQuery;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
-import javax.swing.text.html.parser.Entity;
-import java.util.List;
 
 import static com.util.HibernateSessionFactory.createSessionFactory;
 
@@ -57,7 +49,8 @@ public class FileDAO {
             tr = session.getTransaction();
             tr.begin();
 
-            File file = session.get(File.class, id);
+            File file = session.find(File.class, id);
+
 
             tr.commit();
             return file;

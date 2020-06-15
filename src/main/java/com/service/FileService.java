@@ -1,6 +1,6 @@
 package com.service;
 
-import com.DAO.FileDAO;
+import com.dao.FileDAO;
 import com.model.File;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

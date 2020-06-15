@@ -1,15 +1,12 @@
-package com.DAO;
+package com.dao;
 
 import com.model.File;
 import com.model.Storage;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.NativeQuery;
 import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.util.HibernateSessionFactory.createSessionFactory;
@@ -49,7 +46,7 @@ public class StorageDAO {
             tr = session.getTransaction();
             tr.begin();
 
-            Storage storage = session.get(Storage.class, id);
+            Storage storage = session.find(Storage.class, id);
 
             tr.commit();
             return storage;

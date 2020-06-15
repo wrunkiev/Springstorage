@@ -1,7 +1,7 @@
 package com.config;
 
-import com.DAO.FileDAO;
-import com.DAO.StorageDAO;
+import com.dao.FileDAO;
+import com.dao.StorageDAO;
 import com.controller.FileController;
 import com.controller.StorageController;
 import com.controller.TransferController;
@@ -10,15 +10,7 @@ import com.service.StorageService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
-import javax.sql.DataSource;
-import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
