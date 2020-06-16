@@ -5,32 +5,19 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
-
 import static com.util.HibernateSessionFactory.createSessionFactory;
-
-//import static com.util.HibernateSessionFactory.createSessionFactory;
 
 @Repository
 public class FileDAO {
-    //@PersistenceContext
-    //private EntityManager entityManager;
 
     public File save(File file)throws Exception{
         checkFileNull(file);
-
         Transaction tr = null;
-        //EntityTransaction entityTransaction = null;
         try (Session session = createSessionFactory().openSession() ){
-
             tr = session.getTransaction();
-            //entityTransaction = entityManager.getTransaction();
-            //entityTransaction.begin();
-
+            tr.begin();
             session.save(file);
-            //entityManager.persist(file);
-
-            //entityTransaction.commit();
-
+            tr.commit();
             return file;
         } catch (HibernateException e) {
             System.err.println("Exception in method FileDAO.save. Save file with ID: " +
@@ -48,10 +35,7 @@ public class FileDAO {
         try (Session session = createSessionFactory().openSession()) {
             tr = session.getTransaction();
             tr.begin();
-
             File file = session.find(File.class, id);
-
-
             tr.commit();
             return file;
         } catch (HibernateException e) {
